@@ -34,7 +34,7 @@ partial class DisplayFftForm
             this.formsPlot1 = new ScottPlot.FormsPlot();
             this.eventLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.cbAutoAxis = new System.Windows.Forms.CheckBox();
-            this.lblPeak = new System.Windows.Forms.Label();
+            this.peakLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbDevices
@@ -72,7 +72,7 @@ partial class DisplayFftForm
             // timer1
             // 
             this.eventLoopTimer.Enabled = true;
-            this.eventLoopTimer.Interval = 20;
+            this.eventLoopTimer.Interval = 50;
             this.eventLoopTimer.Tick += new System.EventHandler(this.RunSingleIteration);
             // 
             // cbAutoAxis
@@ -90,20 +90,20 @@ partial class DisplayFftForm
             // 
             // lblPeak
             // 
-            this.lblPeak.AutoSize = true;
-            this.lblPeak.Location = new System.Drawing.Point(303, 10);
-            this.lblPeak.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPeak.Name = "lblPeak";
-            this.lblPeak.Size = new System.Drawing.Size(137, 15);
-            this.lblPeak.TabIndex = 9;
-            this.lblPeak.Text = "Peak Frequency";
+            this.peakLabel.AutoSize = true;
+            this.peakLabel.Location = new System.Drawing.Point(303, 10);
+            this.peakLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.peakLabel.Name = "peakLabel";
+            this.peakLabel.Size = new System.Drawing.Size(137, 15);
+            this.peakLabel.TabIndex = 9;
+            this.peakLabel.Text = "Peak Frequency";
             // 
             // FormMicrophone
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 519);
-            this.Controls.Add(this.lblPeak);
+            this.Controls.Add(this.peakLabel);
             this.Controls.Add(this.cbAutoAxis);
             this.Controls.Add(this.formsPlot1);
             this.Controls.Add(this.label1);
@@ -124,5 +124,5 @@ partial class DisplayFftForm
     private ScottPlot.FormsPlot formsPlot1;
     private System.Windows.Forms.Timer eventLoopTimer;
     private System.Windows.Forms.CheckBox cbAutoAxis;
-    private System.Windows.Forms.Label lblPeak;
+    private System.Windows.Forms.Label peakLabel;
 }
