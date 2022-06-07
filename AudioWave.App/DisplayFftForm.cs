@@ -19,6 +19,7 @@ public partial class DisplayFftForm : Form
 		InitializeComponent();
 		FillDevicesComboBox();
 		FillWindowTypeComboBox();
+		windowTypeComboBox.SelectedIndexChanged += (_, _) => RenderTransformedSignal();
 	}
 
 	private void FillDevicesComboBox()
@@ -27,8 +28,7 @@ public partial class DisplayFftForm : Form
 			.AllNames()
 			.ForEach(deviceName => devicesComboBox.Items.Add(deviceName));
 
-		if (devicesComboBox.Items.Count == 0) MessageBox.Show("No any input devices found!");
-		else devicesComboBox.SelectedIndex = 0;
+		devicesComboBox.SelectedIndex = 0;
 	}
 
 	private void FillWindowTypeComboBox()
@@ -52,14 +52,21 @@ public partial class DisplayFftForm : Form
 
 		if (lastBuffer is null || lastBuffer.Length != samplesRecorded)
 			lastBuffer = new double[samplesRecorded];
-		for (int i = 0; i < samplesRecorded; i++)
+		for (var i = 0; i < samplesRecorded; i++)
 			lastBuffer[i] = BitConverter.ToInt16(args.Buffer, i * bytesPerSample);
 	}
 
 	private void RenderAll(object sender, EventArgs e)
 	{
-		RenderOriginalSignal();
-		RenderTransformedSignal();
+		try
+		{
+			RenderOriginalSignal();
+			RenderTransformedSignal();
+		}
+		catch (Exception exception)
+		{
+			System.Diagnostics.Debug.WriteLine(exception);
+		}
 	}
 
 	private SignalPlot originalPlot;
@@ -73,7 +80,7 @@ public partial class DisplayFftForm : Form
 
 		if (!originalFormPlot.Plot.GetPlottables().Any())
 		{
-			originalPlot = originalFormPlot.Plot.AddSignal(lastBuffer.Select(Math.Log10).ToArray());
+			originalPlot = originalFormPlot.Plot.AddSignal(lastBuffer.Select(x => x).ToArray());
 		}
 		else
 		{
@@ -83,7 +90,11 @@ public partial class DisplayFftForm : Form
 		originalFormPlot.Plot.XLabel("Time");
 		originalFormPlot.Plot.YLabel("Signal amplitude");
 
-		originalFormPlot.Plot.AxisAuto(horizontalMargin: 0);
+		if (autoAxisOriginal.Checked)
+		{
+			originalFormPlot.Plot.AxisAuto(horizontalMargin: 0);
+		}
+
 		originalFormPlot.Render();
 	}
 
@@ -98,47 +109,31 @@ public partial class DisplayFftForm : Form
 
 		var window = allWindows.ElementAt(windowTypeComboBox.SelectedIndex);
 		double[] windowed = window.Apply(lastBuffer);
-		//double[] windowed = lastBuffer;
 		double[] zeroPadded = Pad.ZeroPad(windowed);
 		double[] fftPower = Transform.FFTpower(zeroPadded);
-		double[] fftFreq = Transform.FFTfreq(currentAudioEvent.WaveFormat.SampleRate, fftPower.Length);
+		double[] fftFreq = Transform.FFTfreq(44100, fftPower.Length);
 
 		peakLabel.Text = $"Peak Frequency: {PeakFrequency(fftPower, fftFreq):N0} Hz";
 		transformedFormPlot.Plot.XLabel("Frequency Hz");
 		transformedFormPlot.Plot.YLabel("Decibels");
 
-
 		if (!transformedFormPlot.Plot.GetPlottables().Any())
 		{
 			transformedPlot = transformedFormPlot.Plot.AddSignal(
 				fftPower,
-				2.0 * fftPower.Length / currentAudioEvent.WaveFormat.SampleRate);
+				2.0 * fftPower.Length / 44100);
 		}
 		else
 		{
 			transformedPlot.Ys = fftPower;
 		}
 
-		if (cbAutoAxis.Checked)
+		if (autoAxisTransformed.Checked)
 		{
-			try
-			{
-				transformedFormPlot.Plot.AxisAuto(horizontalMargin: 0);
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine(ex);
-			}
+			transformedFormPlot.Plot.AxisAuto(horizontalMargin: 0);
 		}
 
-		try
-		{
-			transformedFormPlot.Render();
-		}
-		catch (Exception ex)
-		{
-			System.Diagnostics.Debug.WriteLine(ex);
-		}
+		transformedFormPlot.Render();
 	}
 
 	/// <summary>
@@ -149,4 +144,18 @@ public partial class DisplayFftForm : Form
 			.Zip(fftFreq, (x, y) => (PowerSample: x, FreqSample: y))
 			.MaxBy(tuple => tuple.PowerSample)
 			.FreqSample;
+
+	private void OnStartRenderPressed(object sender, EventArgs e)
+	{
+		if (eventLoopTimer.Enabled)
+		{
+			eventLoopTimer.Enabled = false;
+			startRenderButton.Text = "Start";
+		}
+		else
+		{
+			eventLoopTimer.Enabled = true;
+			startRenderButton.Text = "Stop";
+		}
+	}
 }

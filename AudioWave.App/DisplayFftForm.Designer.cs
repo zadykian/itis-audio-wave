@@ -33,11 +33,15 @@ partial class DisplayFftForm
             this.label1 = new System.Windows.Forms.Label();
             this.transformedFormPlot = new ScottPlot.FormsPlot();
             this.eventLoopTimer = new System.Windows.Forms.Timer(this.components);
-            this.cbAutoAxis = new System.Windows.Forms.CheckBox();
             this.peakLabel = new System.Windows.Forms.Label();
             this.windowTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.originalFormPlot = new ScottPlot.FormsPlot();
+            this.startRenderButton = new System.Windows.Forms.Button();
+            this.autoAxisOriginal = new System.Windows.Forms.CheckBox();
+            this.OriginalLabel = new System.Windows.Forms.Label();
+            this.transformedLabel = new System.Windows.Forms.Label();
+            this.autoAxisTransformed = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // devicesComboBox
@@ -61,7 +65,7 @@ partial class DisplayFftForm
             this.label1.TabIndex = 1;
             this.label1.Text = "Audio Device";
             // 
-            // transformedGraphPlot
+            // transformedFormPlot
             // 
             this.transformedFormPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -78,23 +82,10 @@ partial class DisplayFftForm
             this.eventLoopTimer.Interval = 500;
             this.eventLoopTimer.Tick += new System.EventHandler(this.RenderAll);
             // 
-            // cbAutoAxis
-            // 
-            this.cbAutoAxis.AutoSize = true;
-            this.cbAutoAxis.Checked = true;
-            this.cbAutoAxis.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbAutoAxis.Location = new System.Drawing.Point(310, 33);
-            this.cbAutoAxis.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.cbAutoAxis.Name = "cbAutoAxis";
-            this.cbAutoAxis.Size = new System.Drawing.Size(79, 19);
-            this.cbAutoAxis.TabIndex = 3;
-            this.cbAutoAxis.Text = "Auto-Axis";
-            this.cbAutoAxis.UseVisualStyleBackColor = true;
-            // 
             // peakLabel
             // 
             this.peakLabel.AutoSize = true;
-            this.peakLabel.Location = new System.Drawing.Point(397, 34);
+            this.peakLabel.Location = new System.Drawing.Point(299, 34);
             this.peakLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.peakLabel.Name = "peakLabel";
             this.peakLabel.Size = new System.Drawing.Size(90, 15);
@@ -119,7 +110,7 @@ partial class DisplayFftForm
             this.label2.TabIndex = 12;
             this.label2.Text = "Window Type";
             // 
-            // original
+            // originalFormPlot
             // 
             this.originalFormPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -130,16 +121,68 @@ partial class DisplayFftForm
             this.originalFormPlot.Size = new System.Drawing.Size(905, 284);
             this.originalFormPlot.TabIndex = 13;
             // 
+            // startRenderButton
+            // 
+            this.startRenderButton.Location = new System.Drawing.Point(577, 29);
+            this.startRenderButton.Name = "startRenderButton";
+            this.startRenderButton.Size = new System.Drawing.Size(90, 25);
+            this.startRenderButton.TabIndex = 14;
+            this.startRenderButton.Text = "Stop";
+            this.startRenderButton.UseVisualStyleBackColor = true;
+            this.startRenderButton.Click += new System.EventHandler(this.OnStartRenderPressed);
+            // 
+            // autoAxisOriginal
+            // 
+            this.autoAxisOriginal.AutoSize = true;
+            this.autoAxisOriginal.Location = new System.Drawing.Point(194, 107);
+            this.autoAxisOriginal.Name = "autoAxisOriginal";
+            this.autoAxisOriginal.Size = new System.Drawing.Size(79, 19);
+            this.autoAxisOriginal.TabIndex = 15;
+            this.autoAxisOriginal.Text = "Auto-Axis";
+            this.autoAxisOriginal.UseVisualStyleBackColor = true;
+            // 
+            // OriginalLabel
+            // 
+            this.OriginalLabel.AutoSize = true;
+            this.OriginalLabel.Location = new System.Drawing.Point(66, 108);
+            this.OriginalLabel.Name = "OriginalLabel";
+            this.OriginalLabel.Size = new System.Drawing.Size(84, 15);
+            this.OriginalLabel.TabIndex = 16;
+            this.OriginalLabel.Text = "Original Signal";
+            // 
+            // transformedLabel
+            // 
+            this.transformedLabel.AutoSize = true;
+            this.transformedLabel.Location = new System.Drawing.Point(66, 436);
+            this.transformedLabel.Name = "transformedLabel";
+            this.transformedLabel.Size = new System.Drawing.Size(108, 15);
+            this.transformedLabel.TabIndex = 18;
+            this.transformedLabel.Text = "Transformed Signal";
+            // 
+            // autoAxisTransformed
+            // 
+            this.autoAxisTransformed.AutoSize = true;
+            this.autoAxisTransformed.Location = new System.Drawing.Point(194, 435);
+            this.autoAxisTransformed.Name = "autoAxisTransformed";
+            this.autoAxisTransformed.Size = new System.Drawing.Size(79, 19);
+            this.autoAxisTransformed.TabIndex = 17;
+            this.autoAxisTransformed.Text = "Auto-Axis";
+            this.autoAxisTransformed.UseVisualStyleBackColor = true;
+            // 
             // DisplayFftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 743);
+            this.Controls.Add(this.transformedLabel);
+            this.Controls.Add(this.autoAxisTransformed);
+            this.Controls.Add(this.OriginalLabel);
+            this.Controls.Add(this.autoAxisOriginal);
+            this.Controls.Add(this.startRenderButton);
             this.Controls.Add(this.originalFormPlot);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.windowTypeComboBox);
             this.Controls.Add(this.peakLabel);
-            this.Controls.Add(this.cbAutoAxis);
             this.Controls.Add(this.transformedFormPlot);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.devicesComboBox);
@@ -158,9 +201,13 @@ partial class DisplayFftForm
     private System.Windows.Forms.Label label1;
     private ScottPlot.FormsPlot transformedFormPlot;
     private System.Windows.Forms.Timer eventLoopTimer;
-    private System.Windows.Forms.CheckBox cbAutoAxis;
     private System.Windows.Forms.Label peakLabel;
     private System.Windows.Forms.ComboBox windowTypeComboBox;
     private System.Windows.Forms.Label label2;
     private ScottPlot.FormsPlot originalFormPlot;
+    private System.Windows.Forms.Button startRenderButton;
+    private System.Windows.Forms.CheckBox autoAxisOriginal;
+    private System.Windows.Forms.Label OriginalLabel;
+    private System.Windows.Forms.Label transformedLabel;
+    private System.Windows.Forms.CheckBox autoAxisTransformed;
 }
