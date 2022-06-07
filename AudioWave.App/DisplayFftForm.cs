@@ -4,8 +4,8 @@ namespace AudioWave.App;
 
 public partial class DisplayFftForm : Form
 {
-    public DisplayFftForm()
-    {
-        InitializeComponent();
-    }
+	public DisplayFftForm()
+	{
+		InitializeComponent();
+	}
 }
