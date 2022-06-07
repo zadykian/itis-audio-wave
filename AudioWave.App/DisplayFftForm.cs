@@ -51,7 +51,7 @@ public partial class DisplayFftForm : Form
 			lastBuffer = new double[samplesRecorded];
 		for (var i = 0; i < samplesRecorded; i++)
 			lastBuffer[i] = BitConverter.ToInt16(args.Buffer, i * bytesPerSample);
-		audioQueue.Add(lastBuffer);
+		audioSamplesQueue.Add(lastBuffer);
 	}
 
 	private void RenderAll(object sender, EventArgs e)
@@ -144,12 +144,13 @@ public partial class DisplayFftForm : Form
 			.MaxBy(tuple => tuple.PowerSample)
 			.FreqSample;
 
-	private readonly SpectrogramGenerator spectrogramGenerator = new(6000, 1024, 50, minFreq: 0, maxFreq: 5000){Colormap = Colormap.Turbo};
-	private readonly BlockingCollection<double[]> audioQueue = new();
+	private readonly SpectrogramGenerator spectrogramGenerator = new(6000, 1024, 50, minFreq: 0, maxFreq: 2500)
+		{Colormap = Colormap.Turbo};
+	private readonly BlockingCollection<double[]> audioSamplesQueue = new();
 
 	private void RenderSpectrogram()
 	{
-		var newAudio = audioQueue.Take();
+		var newAudio = audioSamplesQueue.Take();
 		spectrogramGenerator.Add(newAudio, process: false);
 
 		if (spectrogramGenerator.FftsToProcess <= 0)
@@ -160,7 +161,7 @@ public partial class DisplayFftForm : Form
 		spectrogramGenerator.Process();
 		spectrogramGenerator.SetFixedWidth(SpectrogramBox.Width);
 		var bitmap = new Bitmap(spectrogramGenerator.Width, spectrogramGenerator.Height, PixelFormat.Format32bppPArgb);
-		using (var bmpSpecIndexed = spectrogramGenerator.GetBitmap())
+		using (var bmpSpecIndexed = spectrogramGenerator.GetBitmap(intensity:1.5d))
 		using (var graphics = Graphics.FromImage(bitmap))
 		{
 			graphics.DrawImage(bmpSpecIndexed, 0, 0);

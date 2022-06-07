@@ -42,7 +42,9 @@ partial class DisplayFftForm
             this.autoAxisTransformed = new System.Windows.Forms.CheckBox();
             this.SpectrogramBox = new System.Windows.Forms.PictureBox();
             this.SpectrogramLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.SpectrogramBox)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // devicesComboBox
@@ -117,7 +119,7 @@ partial class DisplayFftForm
             // autoAxisOriginal
             // 
             this.autoAxisOriginal.AutoSize = true;
-            this.autoAxisOriginal.Location = new System.Drawing.Point(194, 356);
+            this.autoAxisOriginal.Location = new System.Drawing.Point(201, 99);
             this.autoAxisOriginal.Name = "autoAxisOriginal";
             this.autoAxisOriginal.Size = new System.Drawing.Size(79, 19);
             this.autoAxisOriginal.TabIndex = 15;
@@ -127,7 +129,7 @@ partial class DisplayFftForm
             // OriginalLabel
             // 
             this.OriginalLabel.AutoSize = true;
-            this.OriginalLabel.Location = new System.Drawing.Point(66, 357);
+            this.OriginalLabel.Location = new System.Drawing.Point(73, 100);
             this.OriginalLabel.Name = "OriginalLabel";
             this.OriginalLabel.Size = new System.Drawing.Size(84, 15);
             this.OriginalLabel.TabIndex = 16;
@@ -136,7 +138,7 @@ partial class DisplayFftForm
             // transformedLabel
             // 
             this.transformedLabel.AutoSize = true;
-            this.transformedLabel.Location = new System.Drawing.Point(66, 91);
+            this.transformedLabel.Location = new System.Drawing.Point(73, 362);
             this.transformedLabel.Name = "transformedLabel";
             this.transformedLabel.Size = new System.Drawing.Size(108, 15);
             this.transformedLabel.TabIndex = 18;
@@ -145,7 +147,7 @@ partial class DisplayFftForm
             // autoAxisTransformed
             // 
             this.autoAxisTransformed.AutoSize = true;
-            this.autoAxisTransformed.Location = new System.Drawing.Point(194, 90);
+            this.autoAxisTransformed.Location = new System.Drawing.Point(201, 361);
             this.autoAxisTransformed.Name = "autoAxisTransformed";
             this.autoAxisTransformed.Size = new System.Drawing.Size(79, 19);
             this.autoAxisTransformed.TabIndex = 17;
@@ -154,9 +156,10 @@ partial class DisplayFftForm
             // 
             // SpectrogramBox
             // 
-            this.SpectrogramBox.Location = new System.Drawing.Point(66, 642);
+            this.SpectrogramBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.SpectrogramBox.Location = new System.Drawing.Point(0, 0);
             this.SpectrogramBox.Name = "SpectrogramBox";
-            this.SpectrogramBox.Size = new System.Drawing.Size(834, 379);
+            this.SpectrogramBox.Size = new System.Drawing.Size(834, 401);
             this.SpectrogramBox.TabIndex = 19;
             this.SpectrogramBox.TabStop = false;
             // 
@@ -169,13 +172,22 @@ partial class DisplayFftForm
             this.SpectrogramLabel.TabIndex = 20;
             this.SpectrogramLabel.Text = "Spectrogram";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.Controls.Add(this.SpectrogramBox);
+            this.panel1.Location = new System.Drawing.Point(66, 633);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(834, 401);
+            this.panel1.TabIndex = 21;
+            // 
             // DisplayFftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 1046);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.SpectrogramLabel);
-            this.Controls.Add(this.SpectrogramBox);
             this.Controls.Add(this.transformedLabel);
             this.Controls.Add(this.autoAxisTransformed);
             this.Controls.Add(this.OriginalLabel);
@@ -191,6 +203,7 @@ partial class DisplayFftForm
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Display input signal";
             ((System.ComponentModel.ISupportInitialize)(this.SpectrogramBox)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,4 +224,5 @@ partial class DisplayFftForm
     private System.Windows.Forms.CheckBox autoAxisTransformed;
     private System.Windows.Forms.PictureBox SpectrogramBox;
     private System.Windows.Forms.Label SpectrogramLabel;
+    private System.Windows.Forms.Panel panel1;
 }
