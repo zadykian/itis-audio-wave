@@ -10,5 +10,10 @@ internal static class Program
 	/// <summary>
 	/// Entry point method. 
 	/// </summary>
-	private static void Main() => Application.Run(new DisplayFftForm());
+	private static void Main()
+	{
+		Application.EnableVisualStyles();
+		Application.SetCompatibleTextRenderingDefault(false);
+		Application.Run(new FormMicrophone());
+	}
 }

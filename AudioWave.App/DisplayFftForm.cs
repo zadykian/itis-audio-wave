@@ -2,10 +2,20 @@
 
 namespace AudioWave.App;
 
-public partial class DisplayFftForm : Form
+public partial class FormMicrophone : Form
 {
-	public DisplayFftForm()
-	{
-		InitializeComponent();
-	}
+    public FormMicrophone()
+    {
+        InitializeComponent();
+    }
+
+    private void ChangeInputDevice(object sender, EventArgs e)
+    {
+    }
+
+    
+    private void RunSingleIteration(object sender, EventArgs e)
+    {
+
+    }
 }
