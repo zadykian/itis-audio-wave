@@ -31,17 +31,17 @@ partial class DisplayFftForm
             this.components = new System.ComponentModel.Container();
             this.devicesComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.formsPlot1 = new ScottPlot.FormsPlot();
+            this.transformedGraphPlot = new ScottPlot.FormsPlot();
             this.eventLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.cbAutoAxis = new System.Windows.Forms.CheckBox();
             this.peakLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // cbDevices
+            // devicesComboBox
             // 
             this.devicesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.devicesComboBox.FormattingEnabled = true;
-            this.devicesComboBox.Location = new System.Drawing.Point(14, 29);
+            this.devicesComboBox.Location = new System.Drawing.Point(151, 31);
             this.devicesComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.devicesComboBox.Name = "devicesComboBox";
             this.devicesComboBox.Size = new System.Drawing.Size(140, 23);
@@ -51,7 +51,7 @@ partial class DisplayFftForm
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 10);
+            this.label1.Location = new System.Drawing.Point(66, 34);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 15);
@@ -60,16 +60,16 @@ partial class DisplayFftForm
             // 
             // formsPlot1
             // 
-            this.formsPlot1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.transformedGraphPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.formsPlot1.Location = new System.Drawing.Point(14, 60);
-            this.formsPlot1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.formsPlot1.Name = "formsPlot1";
-            this.formsPlot1.Size = new System.Drawing.Size(905, 445);
-            this.formsPlot1.TabIndex = 2;
+            this.transformedGraphPlot.Location = new System.Drawing.Point(14, 60);
+            this.transformedGraphPlot.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.transformedGraphPlot.Name = "transformedGraphPlot";
+            this.transformedGraphPlot.Size = new System.Drawing.Size(905, 445);
+            this.transformedGraphPlot.TabIndex = 2;
             // 
-            // timer1
+            // eventLoopTimer
             // 
             this.eventLoopTimer.Enabled = true;
             this.eventLoopTimer.Interval = 50;
@@ -80,7 +80,7 @@ partial class DisplayFftForm
             this.cbAutoAxis.AutoSize = true;
             this.cbAutoAxis.Checked = true;
             this.cbAutoAxis.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbAutoAxis.Location = new System.Drawing.Point(162, 31);
+            this.cbAutoAxis.Location = new System.Drawing.Point(310, 33);
             this.cbAutoAxis.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbAutoAxis.Name = "cbAutoAxis";
             this.cbAutoAxis.Size = new System.Drawing.Size(79, 19);
@@ -88,28 +88,28 @@ partial class DisplayFftForm
             this.cbAutoAxis.Text = "Auto-Axis";
             this.cbAutoAxis.UseVisualStyleBackColor = true;
             // 
-            // lblPeak
+            // peakLabel
             // 
             this.peakLabel.AutoSize = true;
-            this.peakLabel.Location = new System.Drawing.Point(303, 10);
+            this.peakLabel.Location = new System.Drawing.Point(397, 34);
             this.peakLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.peakLabel.Name = "peakLabel";
-            this.peakLabel.Size = new System.Drawing.Size(137, 15);
+            this.peakLabel.Size = new System.Drawing.Size(90, 15);
             this.peakLabel.TabIndex = 9;
             this.peakLabel.Text = "Peak Frequency";
             // 
-            // FormMicrophone
+            // DisplayFftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 519);
             this.Controls.Add(this.peakLabel);
             this.Controls.Add(this.cbAutoAxis);
-            this.Controls.Add(this.formsPlot1);
+            this.Controls.Add(this.transformedGraphPlot);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.devicesComboBox);
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "AudioWave";
+            this.Name = "DisplayFftForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Display input signal";
             this.ResumeLayout(false);
@@ -121,7 +121,7 @@ partial class DisplayFftForm
 
     private System.Windows.Forms.ComboBox devicesComboBox;
     private System.Windows.Forms.Label label1;
-    private ScottPlot.FormsPlot formsPlot1;
+    private ScottPlot.FormsPlot transformedGraphPlot;
     private System.Windows.Forms.Timer eventLoopTimer;
     private System.Windows.Forms.CheckBox cbAutoAxis;
     private System.Windows.Forms.Label peakLabel;

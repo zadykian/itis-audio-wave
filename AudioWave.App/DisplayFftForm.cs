@@ -62,25 +62,15 @@ public partial class DisplayFftForm : Form
 		double[] fftPower = FftSharp.Transform.FFTpower(zeroPadded);
 		double[] fftFreq = FftSharp.Transform.FFTfreq(currentAudioEvent.WaveFormat.SampleRate, fftPower.Length);
 
-		// determine peak frequency
-		double peakFreq = 0;
-		double peakPower = 0;
-		for (int i = 0; i < fftPower.Length; i++)
-		{
-			if (fftPower[i] > peakPower)
-			{
-				peakPower = fftPower[i];
-				peakFreq = fftFreq[i];
-			}
-		}
-		peakLabel.Text = $"Peak Frequency: {peakFreq:N0} Hz";
+		peakLabel.Text = $"Peak Frequency: {PeakFrequency(fftPower, fftFreq):N0} Hz";
+		transformedGraphPlot.Plot.XLabel("Frequency Hz");
+		transformedGraphPlot.Plot.YLabel("Decibels");
 
-		formsPlot1.Plot.XLabel("Frequency Hz");
-
-		// make the plot for the first time, otherwise update the existing plot
-		if (!formsPlot1.Plot.GetPlottables().Any())
+		if (!transformedGraphPlot.Plot.GetPlottables().Any())
 		{
-			signalPlot = formsPlot1.Plot.AddSignal(fftPower, 2.0 * fftPower.Length / currentAudioEvent.WaveFormat.SampleRate);
+			signalPlot = transformedGraphPlot.Plot.AddSignal(
+				fftPower,
+				2.0 * fftPower.Length / currentAudioEvent.WaveFormat.SampleRate);
 		}
 		else
 		{
@@ -91,7 +81,7 @@ public partial class DisplayFftForm : Form
 		{
 			try
 			{
-				formsPlot1.Plot.AxisAuto(horizontalMargin: 0);
+				transformedGraphPlot.Plot.AxisAuto(horizontalMargin: 0);
 			}
 			catch (Exception ex)
 			{
@@ -101,11 +91,20 @@ public partial class DisplayFftForm : Form
 
 		try
 		{
-			formsPlot1.Render();
+			transformedGraphPlot.Render();
 		}
 		catch (Exception ex)
 		{
 			System.Diagnostics.Debug.WriteLine(ex);
 		}
 	}
+
+	/// <summary>
+	/// Determine peak frequency based on Fast 
+	/// </summary>
+	private static double PeakFrequency(IEnumerable<double> fftPower, IEnumerable<double> fftFreq)
+		=> fftPower
+			.Zip(fftFreq, (x, y) => (PowerSample: x, FreqSample: y))
+			.MaxBy(tuple => tuple.PowerSample)
+			.FreqSample;
 }
