@@ -14,6 +14,6 @@ internal static class Program
 	{
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
-		Application.Run(new FormMicrophone());
+		Application.Run(new DisplayFftForm());
 	}
 }

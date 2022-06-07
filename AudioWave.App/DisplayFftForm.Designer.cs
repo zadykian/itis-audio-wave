@@ -1,6 +1,6 @@
 ﻿namespace AudioWave.App;
 
-partial class FormMicrophone
+partial class DisplayFftForm
 {
     /// <summary>
     /// Required designer variable.
