@@ -12,6 +12,7 @@
 		<PackageReference Include="FftSharp" Version="1.1.5" />
 		<PackageReference Include="NAudio" Version="2.1.0" />
 		<PackageReference Include="ScottPlot.WinForms" Version="4.1.46" />
+		<PackageReference Include="Spectrogram" Version="1.4.4" />
 		<PackageReference Include="TypeDecorators" Version="1.1.0" />
 	</ItemGroup>
 

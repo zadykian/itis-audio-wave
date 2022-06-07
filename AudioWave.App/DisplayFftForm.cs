@@ -1,8 +1,13 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Concurrent;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 using AudioWave.App.Devices;
 using FftSharp;
+using FftSharp.Windows;
 using NAudio.Wave;
 using ScottPlot.Plottable;
+using Spectrogram;
 
 // ReSharper disable LocalizableElement
 
@@ -10,7 +15,6 @@ namespace AudioWave.App;
 
 public partial class DisplayFftForm : Form
 {
-	private static readonly IReadOnlyCollection<IWindow> allWindows = Window.GetWindows();
 	private readonly IInputDevices inputDevices = new InputDevices();
 	private WaveInEvent currentAudioEvent;
 
@@ -18,8 +22,7 @@ public partial class DisplayFftForm : Form
 	{
 		InitializeComponent();
 		FillDevicesComboBox();
-		FillWindowTypeComboBox();
-		windowTypeComboBox.SelectedIndexChanged += (_, _) => RenderTransformedSignal();
+		SpectrogramBox.Height = spectrogramGenerator.Height;
 	}
 
 	private void FillDevicesComboBox()
@@ -29,12 +32,6 @@ public partial class DisplayFftForm : Form
 			.ForEach(deviceName => devicesComboBox.Items.Add(deviceName));
 
 		devicesComboBox.SelectedIndex = 0;
-	}
-
-	private void FillWindowTypeComboBox()
-	{
-		allWindows.ForEach(window => windowTypeComboBox.Items.Add(window));
-		windowTypeComboBox.SelectedIndex = 0;
 	}
 
 	private void ChangeInputDevice(object sender, EventArgs e)
@@ -54,6 +51,7 @@ public partial class DisplayFftForm : Form
 			lastBuffer = new double[samplesRecorded];
 		for (var i = 0; i < samplesRecorded; i++)
 			lastBuffer[i] = BitConverter.ToInt16(args.Buffer, i * bytesPerSample);
+		audioQueue.Add(lastBuffer);
 	}
 
 	private void RenderAll(object sender, EventArgs e)
@@ -62,6 +60,7 @@ public partial class DisplayFftForm : Form
 		{
 			RenderOriginalSignal();
 			RenderTransformedSignal();
+			RenderSpectrogram();
 		}
 		catch (Exception exception)
 		{
@@ -107,7 +106,7 @@ public partial class DisplayFftForm : Form
 			return;
 		}
 
-		var window = allWindows.ElementAt(windowTypeComboBox.SelectedIndex);
+		var window = new Hanning();
 		double[] windowed = window.Apply(lastBuffer);
 		double[] zeroPadded = Pad.ZeroPad(windowed);
 		double[] fftPower = Transform.FFTpower(zeroPadded);
@@ -144,6 +143,31 @@ public partial class DisplayFftForm : Form
 			.Zip(fftFreq, (x, y) => (PowerSample: x, FreqSample: y))
 			.MaxBy(tuple => tuple.PowerSample)
 			.FreqSample;
+
+	private readonly SpectrogramGenerator spectrogramGenerator = new(6000, 1024, 50, minFreq: 0, maxFreq: 5000){Colormap = Colormap.Turbo};
+	private readonly BlockingCollection<double[]> audioQueue = new();
+
+	private void RenderSpectrogram()
+	{
+		var newAudio = audioQueue.Take();
+		spectrogramGenerator.Add(newAudio, process: false);
+
+		if (spectrogramGenerator.FftsToProcess <= 0)
+		{
+			return;
+		}
+
+		spectrogramGenerator.Process();
+		spectrogramGenerator.SetFixedWidth(SpectrogramBox.Width);
+		var bitmap = new Bitmap(spectrogramGenerator.Width, spectrogramGenerator.Height, PixelFormat.Format32bppPArgb);
+		using (var bmpSpecIndexed = spectrogramGenerator.GetBitmap())
+		using (var graphics = Graphics.FromImage(bitmap))
+		{
+			graphics.DrawImage(bmpSpecIndexed, 0, 0);
+		}
+		SpectrogramBox.Image?.Dispose();
+		SpectrogramBox.Image = bitmap;
+	}
 
 	private void OnStartRenderPressed(object sender, EventArgs e)
 	{
