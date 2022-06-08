@@ -24,4 +24,6 @@
 Преобразование Фурье позволяет разложить исходный сигнал на гармонические составляющие.
 Другими словами - позволяет представить сложную синусоиду в виде отдельных пиков по частотам.
 
+![center-of-mass](docs/center-of-mass.gif)
+
 ![discrete-fourier-transform](docs/discrete-fourier-transform.gif)
